@@ -1,4 +1,4 @@
-import streamlit as st
+"""import streamlit as st
 
 st.title("📝 Enter Your Details")
 
@@ -25,12 +25,12 @@ with st.form("user_form"):
 if submit:
     st.success("✅ Details saved successfully!")
 
-
+"""
 
 
 #Global data storage
 
-#import streamlit as st
+import streamlit as st
 
 st.title("📝 Enter Your Details")
 
