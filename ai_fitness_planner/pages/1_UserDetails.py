@@ -30,7 +30,7 @@ if submit:
 
 #Global data storage
 
-import streamlit as st
+#import streamlit as st
 
 st.title("📝 Enter Your Details")
 
@@ -170,5 +170,6 @@ if submit:
     conn.close()
 
     st.success("✅ Progress saved successfully!")
+
 
 
