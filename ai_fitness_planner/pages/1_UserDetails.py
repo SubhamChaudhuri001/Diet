@@ -34,7 +34,7 @@ import streamlit as st
 
 st.title("📝 Enter Your Details")
 
-with st.form("user_form"):
+with st.form("user_form"):                            #########################
     age = st.number_input("Age", 15, 70)
     gender = st.radio("Gender", ["Male", "Female"])
     height = st.number_input("Height (cm)")
@@ -170,4 +170,5 @@ if submit:
     conn.close()
 
     st.success("✅ Progress saved successfully!")
+
 
