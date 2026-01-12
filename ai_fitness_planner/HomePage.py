@@ -32,6 +32,22 @@ st.write("""
 
 st.success("🚀 Internship-Ready AI Project")
 
+st.sidebar.title("💪 YOUTHFIT AI")
+st.sidebar.caption("AI-Based Workout & Diet Planner")
+
+if st.sidebar.button("🚀 Get Started"):
+    st.switch_page("pages/1_User_Details.py")
+
+st.sidebar.markdown("---")
+
+if "user" in st.session_state:
+    user = st.session_state.user
+    st.sidebar.markdown("### 👤 User Summary")
+    st.sidebar.write(f"🎯 Goal: {user['goal']}")
+    st.sidebar.write(f"🥗 Diet: {user['diet']}")
+else:
+    st.sidebar.info("Please enter your details")
+
 
 
 
