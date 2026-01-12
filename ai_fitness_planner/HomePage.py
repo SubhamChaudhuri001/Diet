@@ -9,6 +9,9 @@ st.set_page_config(
     layout="centered"
 )
 
+st.sidebar.title("💪 YOUTHFIT AI")
+st.sidebar.caption("AI-Based Workout & Diet Planner")
+
 st.title("💪 AI-Based Personalized Workout & Diet Planner")
 
 st.markdown("""
@@ -32,9 +35,7 @@ st.write("""
 
 st.success("🚀 Internship-Ready AI Project")
 
-st.sidebar.title("💪 YOUTHFIT AI")
-st.sidebar.caption("AI-Based Workout & Diet Planner")
-
+'''
 if st.sidebar.button("🚀 Get Started"):
     st.switch_page("pages/1_User_Details.py")
 
@@ -48,6 +49,4 @@ if "user" in st.session_state:
 else:
     st.sidebar.info("Please enter your details")
 
-
-
-
+'''
