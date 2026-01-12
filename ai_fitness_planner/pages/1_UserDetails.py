@@ -142,7 +142,7 @@ def diet_plan(goal, calories, diet_type):
 
 
 #Save Progress Data Automatically
-from database import connect_db
+from backend.database import connect_db
 from datetime import date
 
 if submit:
@@ -170,6 +170,7 @@ if submit:
     conn.close()
 
     st.success("✅ Progress saved successfully!")
+
 
 
 
