@@ -7,6 +7,8 @@ def calculate_bmi(weight, height):
     """
     if height is None or height <= 0:
         return None
+    if weight is None or height <= 0:
+        return None
     return weight / ((height / 100) ** 2)
 
 
@@ -18,4 +20,5 @@ def calculate_bmr(gender, weight, height, age):
         return 10 * weight + 6.25 * height - 5 * age + 5
     else:
         return 10 * weight + 6.25 * height - 5 * age - 161
+
 
