@@ -1,59 +1,26 @@
 import streamlit as st
 
-st.title("🏋️ Personalized Workout Plan")
-
-st.subheader("🔹 Recommended Training")
-
-st.markdown("""
-**Beginner Level**
-- 20 min Cardio  
-- Bodyweight Squats  
-- Push-ups  
-- Plank  
-
-**Weekly Schedule**
-- 5 days workout  
-- 2 days rest
-""")
-
-st.expander("📅 View Weekly Plan").write("""
-Monday – Cardio  
-Tuesday – Upper Body  
-Wednesday – Rest  
-Thursday – Lower Body  
-Friday – Core  
-""")
-
-st.progress(70)
-st.caption("Workout Completion Progress")
-
-
-
-
-
-#Connect Logic to Workout Page
-import streamlit as st
+# ✅ IMPORT LOGIC FUNCTIONS
+from backend.calculations import calculate_bmi
+from backend.workout_logic import workout_plan 
+# -----------------------------------------------
 
 st.title("🏋️ Personalized Workout Plan")
 
+# ✅ PAGE PROTECTION
 if "user" not in st.session_state:
-    st.warning("⚠️ Please enter your details first.")
-else:
-    user = st.session_state.user
-    bmi = calculate_bmi(user["weight"], user["height"])
+    st.warning("⚠️ Please enter your details on the User Details page first.")
+    st.stop()
 
-    plan = workout_plan(user["goal"], bmi)
+# ✅ GET USER DATA
+user = st.session_state.user
 
-    st.metric("BMI", f"{bmi:.2f}")
+# ✅ CALCULATIONS
+bmi = calculate_bmi(user["weight"], user["height"])
+plan = workout_plan(user["goal"], bmi)
 
-    for exercise in plan:
-        st.write("✅", exercise)
-
-
-
-#BMI STATUS
-import streamlit as st
-
+# -----------------------------------------------
+# ✅ BMI STATUS
 def bmi_category(bmi):
     if bmi < 18.5:
         return "Underweight"
@@ -64,20 +31,36 @@ def bmi_category(bmi):
     else:
         return "Obese"
 
-st.title("🏋️ Personalized Workout Plan")
+category = bmi_category(bmi)
 
-if "user" not in st.session_state:
-    st.warning("⚠️ Please enter your details first.")
-else:
-    user = st.session_state.user
-    bmi = calculate_bmi(user["weight"], user["height"])
-    category = bmi_category(bmi)
+# -----------------------------------------------
+# ✅ DISPLAY BMI INFO
+st.subheader("📏 BMI Analysis")
+st.metric("BMI Value", f"{bmi:.2f}")
+st.info(f"🧠 BMI Category: **{category}**")
 
-    st.metric("📏 BMI Value", f"{bmi:.2f}")
-    st.info(f"🧠 BMI Category: **{category}**")
+bmi_percent = min(bmi / 40, 1.0)
+st.progress(bmi_percent)
+st.caption("BMI scale (0–40)")
 
-    # BMI Progress Visualization
-    bmi_percent = min(bmi / 40, 1.0)
-    st.progress(bmi_percent)
+st.divider()
 
-    st.caption("BMI scale (0–40)")
+# -----------------------------------------------
+# ✅ WORKOUT PLAN DISPLAY
+st.subheader("🔹 Recommended Workout Plan")
+
+for exercise in plan:
+    st.write("✅", exercise)
+
+st.expander("📅 Weekly Schedule").write("""
+Monday – Cardio  
+Tuesday – Upper Body  
+Wednesday – Rest  
+Thursday – Lower Body  
+Friday – Core  
+Saturday – Optional Cardio  
+Sunday – Rest
+""")
+
+st.progress(0.7)
+st.caption("Workout Completion Progress")
