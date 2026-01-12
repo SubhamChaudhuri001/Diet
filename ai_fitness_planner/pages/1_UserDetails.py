@@ -1,33 +1,3 @@
-"""import streamlit as st
-
-st.title("📝 Enter Your Details")
-
-with st.form("user_form"):
-    age = st.number_input("Age", 15, 70)
-    gender = st.radio("Gender", ["Male", "Female"])
-    height = st.number_input("Height (cm)")
-    weight = st.number_input("Weight (kg)")
-    activity = st.selectbox(
-        "Activity Level",
-        ["Sedentary", "Lightly Active", "Moderately Active", "Very Active"]
-    )
-    goal = st.selectbox(
-        "Fitness Goal",
-        ["Weight Loss", "Muscle Gain", "Stay Fit"]
-    )
-    diet = st.selectbox(
-        "Diet Preference",
-        ["Vegetarian", "Non-Vegetarian"]
-    )
-
-    submit = st.form_submit_button("Save Details")
-
-if submit:
-    st.success("✅ Details saved successfully!")
-
-"""
-
-
 #Global data storage
 
 import streamlit as st
@@ -170,6 +140,7 @@ if submit:
     conn.close()
 
     st.success("✅ Progress saved successfully!")
+
 
 
 
