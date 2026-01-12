@@ -1,4 +1,18 @@
+# backend/calculations.py
+
+def calculate_bmi(weight, height):
+    """
+    weight: kg
+    height: cm
+    """
+    return weight / ((height / 100) ** 2)
+
+
 def calculate_bmr(gender, weight, height, age):
+    """
+    Mifflin-St Jeor Formula
+    """
     if gender == "Male":
         return 10 * weight + 6.25 * height - 5 * age + 5
-    return 10 * weight + 6.25 * height - 5 * age - 161
+    else:
+        return 10 * weight + 6.25 * height - 5 * age - 161
