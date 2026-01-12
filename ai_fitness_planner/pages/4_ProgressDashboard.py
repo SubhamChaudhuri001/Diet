@@ -34,7 +34,7 @@ st.success("🎯 Consistency is the key to success!")
 #Display Progress History (Dashboard)
 import streamlit as st
 import pandas as pd
-from database import get_progress
+from backend.database import get_progress
 
 st.title("📊 Progress Dashboard")
 
@@ -50,4 +50,5 @@ else:
 
     latest_weight = df.iloc[-1]["Weight (kg)"]
     st.metric("Current Weight", f"{latest_weight} kg")
+
 
