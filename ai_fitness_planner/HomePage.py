@@ -4,13 +4,12 @@ from backend.database import create_table
 create_table()
 
 st.set_page_config(
-    page_title="YOUTHFIT AI",
+    page_title="AI Fitness Planner",
     page_icon="💪",
     layout="centered"
 )
 
-st.title("💪 YOUTHFIT AI")
-st.subheader("AI-Based Personalized Workout & Diet Planner")
+st.title("💪 AI-Based Personalized Workout & Diet Planner")
 
 st.markdown("""
 ### Train Smarter. Eat Better. Live Healthier.
