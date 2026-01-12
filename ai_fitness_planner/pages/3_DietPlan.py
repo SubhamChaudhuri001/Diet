@@ -1,5 +1,9 @@
 import streamlit as st
+import pandas as pd
+
 from backend.calculations import calculate_bmr
+from backend.ml_model import predict_calories
+
 
 
 st.title("🥗 Personalized Diet Plan")
@@ -30,8 +34,6 @@ st.expander("💡 Nutrition Tips").write("""
 
 
 #Connect Logic to Diet Page
-import streamlit as st
-
 st.title("🥗 Personalized Diet Plan")
 
 if "user" not in st.session_state:
@@ -57,8 +59,6 @@ else:
 
 
 #DAILY CALORIE BREAKDOWN (CHART)
-import streamlit as st
-import pandas as pd
 
 st.title("🥗 Personalized Diet Plan")
 
@@ -98,7 +98,6 @@ else:
 
 
 #Integrate ML Model into Diet Page
-from ml_model import predict_calories
 
 activity_factor = {
     "Sedentary": 1.2,
@@ -125,4 +124,5 @@ st.subheader("📊 Calorie Estimation Comparison")
 
 st.metric("Formula-Based Calories", int(daily_cal))
 st.metric("ML-Predicted Calories", ml_calories)
+
 
