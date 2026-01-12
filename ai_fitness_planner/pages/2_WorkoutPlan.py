@@ -5,7 +5,6 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # ✅ IMPORT LOGIC FUNCTIONS
-st.write("Imports loaded successfully ✅")
 from backend.calculations import calculate_bmi
 from backend.workout_logic import workout_plan
 
@@ -70,6 +69,3 @@ Sunday – Rest
 
 st.progress(0.7)
 st.caption("Workout Completion Progress")
-
-
-
