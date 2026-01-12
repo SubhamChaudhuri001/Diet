@@ -1,13 +1,18 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import streamlit as st
 import pandas as pd
 
 from backend.calculations import calculate_bmr
 from backend.ml_model import predict_calories
-from backend.diet_logic import diet_plan 
+from backend.diet_logic import diet_plan
 
-# ---------------- CONFIG ----------------
+# ---------------------------------------
 st.title("🥗 Personalized Diet Plan")
 
+# ---------------------------------------
 activity_factor = {
     "Sedentary": 1.2,
     "Lightly Active": 1.375,
@@ -15,14 +20,16 @@ activity_factor = {
     "Very Active": 1.725
 }
 
-# ---------------- SAFETY CHECK ----------------
+# ---------------------------------------
+# SAFETY CHECK
 if "user" not in st.session_state:
     st.warning("⚠️ Please enter your details on the User Details page first.")
     st.stop()
 
 user = st.session_state.user
 
-# ---------------- BMR & CALORIES ----------------
+# ---------------------------------------
+# BMR & CALORIE CALCULATION
 bmr = calculate_bmr(
     user["gender"],
     user["weight"],
@@ -30,10 +37,15 @@ bmr = calculate_bmr(
     user["age"]
 )
 
+if bmr is None or bmr <= 0:
+    st.error("❌ Invalid data detected. Please re-enter your details.")
+    st.stop()
+
 daily_cal = int(bmr * activity_factor[user["activity"]])
 diet = diet_plan(user["goal"], daily_cal, user["diet"])
 
-# ---------------- UI: FORMULA BASED ----------------
+# ---------------------------------------
+# FORMULA-BASED OUTPUT
 st.subheader("🔥 Daily Calorie Target (Formula Based)")
 st.success(f"{diet['Calories']} kcal/day")
 
@@ -42,10 +54,11 @@ st.write("🍗 **Protein Sources:**", diet["Protein"])
 for meal in diet["Meals"]:
     st.write("•", meal)
 
-# ---------------- CALORIE DISTRIBUTION ----------------
+# ---------------------------------------
+# MACRONUTRIENT DISTRIBUTION
 st.subheader("📊 Macronutrient Distribution")
 
-df = pd.DataFrame({
+macro_df = pd.DataFrame({
     "Macronutrient": ["Protein", "Carbs", "Fats"],
     "Calories": [
         diet["Calories"] * 0.30,
@@ -54,9 +67,10 @@ df = pd.DataFrame({
     ]
 })
 
-st.bar_chart(df.set_index("Macronutrient"))
+st.bar_chart(macro_df.set_index("Macronutrient"))
 
-# ---------------- ML PREDICTION ----------------
+# ---------------------------------------
+# ML CALORIE PREDICTION
 ml_calories = predict_calories(
     user["age"],
     user["weight"],
@@ -67,16 +81,18 @@ ml_calories = predict_calories(
 st.subheader("🤖 AI (ML) Calorie Prediction")
 st.success(f"{ml_calories} kcal/day")
 
-# ---------------- COMPARISON ----------------
+# ---------------------------------------
+# COMPARISON
 st.subheader("📊 Formula vs ML Comparison")
 
 st.metric("Formula-Based Calories", daily_cal)
 st.metric("ML-Predicted Calories", ml_calories)
 
-# ---------------- TIPS ----------------
+# ---------------------------------------
+# TIPS
 st.expander("💡 Nutrition Tips").write("""
 - Drink at least 3L water daily  
 - Avoid processed sugar  
 - Eat every 3–4 hours  
-- Maintain protein intake  
+- Maintain sufficient protein intake  
 """)
