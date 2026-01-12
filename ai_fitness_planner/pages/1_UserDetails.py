@@ -7,8 +7,8 @@ st.title("📝 Enter Your Details")
 with st.form("user_form"):                            #########################
     age = st.number_input("Age", 15, 70)
     gender = st.radio("Gender", ["Male", "Female"])
-    height = st.number_input("Height (cm)")
-    weight = st.number_input("Weight (kg)")
+    height = st.number_input("Height (cm)", min_value=50, max_value=250)
+    weight = st.number_input("Weight (kg)", min_value=20, max_value=300)
     activity = st.selectbox(
         "Activity Level",
         ["Sedentary", "Lightly Active", "Moderately Active", "Very Active"]
@@ -140,6 +140,7 @@ if submit:
     conn.close()
 
     st.success("✅ Progress saved successfully!")
+
 
 
 
