@@ -1,4 +1,6 @@
 import streamlit as st
+from backend.calculations import calculate_bmr
+
 
 st.title("🥗 Personalized Diet Plan")
 
@@ -123,3 +125,4 @@ st.subheader("📊 Calorie Estimation Comparison")
 
 st.metric("Formula-Based Calories", int(daily_cal))
 st.metric("ML-Predicted Calories", ml_calories)
+
