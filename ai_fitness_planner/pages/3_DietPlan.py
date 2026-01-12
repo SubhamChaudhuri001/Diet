@@ -3,101 +3,10 @@ import pandas as pd
 
 from backend.calculations import calculate_bmr
 from backend.ml_model import predict_calories
+from backend.diet_logic import diet_plan 
 
-
-
+# ---------------- CONFIG ----------------
 st.title("🥗 Personalized Diet Plan")
-
-st.subheader("🔥 Daily Calorie Target")
-st.success("2200 kcal/day")
-
-st.markdown("""
-### 🥣 Breakfast
-- Oats with fruits  
-- Boiled eggs / Paneer  
-
-### 🍛 Lunch
-- Brown rice / Roti  
-- Dal / Chicken  
-- Vegetables  
-
-### 🌙 Dinner
-- Salad  
-- Grilled protein  
-""")
-
-st.expander("💡 Nutrition Tips").write("""
-- Drink at least 3L water  
-- Avoid processed sugar  
-- Eat every 3–4 hours  
-""")
-
-
-#Connect Logic to Diet Page
-st.title("🥗 Personalized Diet Plan")
-
-if "user" not in st.session_state:
-    st.warning("⚠️ Please enter your details first.")
-else:
-    user = st.session_state.user
-
-    bmr = calculate_bmr(
-        user["gender"],
-        user["weight"],
-        user["height"],
-        user["age"]
-    )
-
-    daily_cal = bmr * activity_factor[user["activity"]]
-    diet = diet_plan(user["goal"], daily_cal, user["diet"])
-
-    st.success(f"🔥 Daily Calories: {diet['Calories']} kcal")
-
-    st.write("🍗 Protein Sources:", diet["Protein"])
-    for meal in diet["Meals"]:
-        st.write("•", meal)
-
-
-#DAILY CALORIE BREAKDOWN (CHART)
-
-st.title("🥗 Personalized Diet Plan")
-
-if "user" not in st.session_state:
-    st.warning("⚠️ Please enter your details first.")
-else:
-    user = st.session_state.user
-
-    bmr = calculate_bmr(
-        user["gender"],
-        user["weight"],
-        user["height"],
-        user["age"]
-    )
-
-    daily_cal = int(bmr * activity_factor[user["activity"]])
-    diet = diet_plan(user["goal"], daily_cal, user["diet"])
-
-    st.success(f"🔥 Daily Calories Target: {diet['Calories']} kcal")
-
-    # Macronutrient distribution
-    data = {
-        "Macronutrient": ["Protein", "Carbs", "Fats"],
-        "Calories": [
-            diet["Calories"] * 0.30,
-            diet["Calories"] * 0.45,
-            diet["Calories"] * 0.25
-        ]
-    }
-
-    df = pd.DataFrame(data)
-
-    st.subheader("📊 Calorie Distribution")
-    st.bar_chart(df.set_index("Macronutrient"))
-
-
-
-
-#Integrate ML Model into Diet Page
 
 activity_factor = {
     "Sedentary": 1.2,
@@ -106,8 +15,48 @@ activity_factor = {
     "Very Active": 1.725
 }
 
+# ---------------- SAFETY CHECK ----------------
+if "user" not in st.session_state:
+    st.warning("⚠️ Please enter your details on the User Details page first.")
+    st.stop()
+
 user = st.session_state.user
 
+# ---------------- BMR & CALORIES ----------------
+bmr = calculate_bmr(
+    user["gender"],
+    user["weight"],
+    user["height"],
+    user["age"]
+)
+
+daily_cal = int(bmr * activity_factor[user["activity"]])
+diet = diet_plan(user["goal"], daily_cal, user["diet"])
+
+# ---------------- UI: FORMULA BASED ----------------
+st.subheader("🔥 Daily Calorie Target (Formula Based)")
+st.success(f"{diet['Calories']} kcal/day")
+
+st.write("🍗 **Protein Sources:**", diet["Protein"])
+
+for meal in diet["Meals"]:
+    st.write("•", meal)
+
+# ---------------- CALORIE DISTRIBUTION ----------------
+st.subheader("📊 Macronutrient Distribution")
+
+df = pd.DataFrame({
+    "Macronutrient": ["Protein", "Carbs", "Fats"],
+    "Calories": [
+        diet["Calories"] * 0.30,
+        diet["Calories"] * 0.45,
+        diet["Calories"] * 0.25
+    ]
+})
+
+st.bar_chart(df.set_index("Macronutrient"))
+
+# ---------------- ML PREDICTION ----------------
 ml_calories = predict_calories(
     user["age"],
     user["weight"],
@@ -116,13 +65,18 @@ ml_calories = predict_calories(
 )
 
 st.subheader("🤖 AI (ML) Calorie Prediction")
-st.success(f"Predicted Daily Calories: {ml_calories} kcal")
+st.success(f"{ml_calories} kcal/day")
 
+# ---------------- COMPARISON ----------------
+st.subheader("📊 Formula vs ML Comparison")
 
-#Copare Formula vs ML
-st.subheader("📊 Calorie Estimation Comparison")
-
-st.metric("Formula-Based Calories", int(daily_cal))
+st.metric("Formula-Based Calories", daily_cal)
 st.metric("ML-Predicted Calories", ml_calories)
 
-
+# ---------------- TIPS ----------------
+st.expander("💡 Nutrition Tips").write("""
+- Drink at least 3L water daily  
+- Avoid processed sugar  
+- Eat every 3–4 hours  
+- Maintain protein intake  
+""")
