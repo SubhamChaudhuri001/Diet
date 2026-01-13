@@ -9,7 +9,18 @@ st.set_page_config(
     layout="centered"
 )
 
-st.write("App loaded")
+st.set_page_config(
+    page_title="YOUTHFIT AI",
+    page_icon="💪",
+    layout="centered"
+)
+
+# ✅ THIS IS THE KEY LINE
+st.logo(
+    "assets/logo.png",
+    size="large"
+)
+
 
 st.sidebar.title("💪 YOUTHFIT AI")
 st.sidebar.caption("AI-Based Workout & Diet Planner")
@@ -52,5 +63,6 @@ else:
     st.sidebar.info("Please enter your details")
 
 '''
+
 
 
