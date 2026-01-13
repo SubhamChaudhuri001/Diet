@@ -8,10 +8,12 @@ st.set_page_config(
     page_icon="💪",
     layout="centered"
 )
-"""
+
+st.write("App loaded")
+
 st.sidebar.title("💪 YOUTHFIT AI")
 st.sidebar.caption("AI-Based Workout & Diet Planner")
-"""
+
 st.title("💪 AI-Based Personalized Workout & Diet Planner")
 
 st.markdown("""
@@ -50,4 +52,5 @@ else:
     st.sidebar.info("Please enter your details")
 
 '''
+
 
