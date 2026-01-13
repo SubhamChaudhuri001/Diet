@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from PIL import Image
 from backend.database import create_table
 
@@ -16,8 +17,12 @@ st.set_page_config(
     layout="centered"
 )
 
+# ✅ GET ABSOLUTE PATH TO assets/logo.png
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+LOGO_PATH = os.path.join(BASE_DIR, "assets", "logo.png")
+
 # ✅ LOAD IMAGE PROPERLY
-logo = Image.open("assets/logo.png")
+logo = Image.open(LOGO_PATH)
 
 # ✅ USE st.logo WITHOUT size PARAM
 st.logo(logo)
@@ -65,6 +70,7 @@ else:
     st.sidebar.info("Please enter your details")
 
 '''
+
 
 
 
