@@ -1,4 +1,5 @@
 import streamlit as st
+from PIL import Image
 from backend.database import create_table
 
 create_table()
@@ -15,11 +16,12 @@ st.set_page_config(
     layout="centered"
 )
 
-# ✅ THIS IS THE KEY LINE
-st.logo(
-    "assets/logo.png",
-    size="large"
-)
+# ✅ LOAD IMAGE PROPERLY
+logo = Image.open("assets/logo.png")
+
+# ✅ USE st.logo WITHOUT size PARAM
+st.logo(logo)
+
 
 
 st.sidebar.title("💪 YOUTHFIT AI")
@@ -63,6 +65,7 @@ else:
     st.sidebar.info("Please enter your details")
 
 '''
+
 
 
 
