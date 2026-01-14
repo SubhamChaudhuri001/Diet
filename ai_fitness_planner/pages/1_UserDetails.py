@@ -1,7 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 import streamlit as st
 from backend.database import connect_db
 from datetime import date
@@ -9,22 +5,37 @@ from datetime import date
 st.title("📝 Enter Your Details")
 
 # -------------------------------------------------
-# 1️⃣ INITIALIZE SESSION STATE ONLY ONCE
+# DEFAULT USER
+DEFAULT_USER = {
+    "age": 25,
+    "gender": "Male",
+    "height": 170,
+    "weight": 70,
+    "activity": "Moderately Active",
+    "goal": "Stay Fit",
+    "diet": "Vegetarian"
+}
+
+# -------------------------------------------------
+# 🔄 RESET BUTTON (MUST BE BEFORE FORM)
+if st.button("🔄 Reset Details"):
+    for key in ["age", "gender", "height", "weight", "activity", "goal", "diet"]:
+        if key in st.session_state:
+            del st.session_state[key]
+
+    st.session_state.user = DEFAULT_USER.copy()
+    st.success("Details reset to default values.")
+    st.rerun()
+
+# -------------------------------------------------
+# INITIALIZE USER ONLY ONCE
 if "user" not in st.session_state:
-    st.session_state.user = {
-        "age": 25,
-        "gender": "Male",
-        "height": 170,
-        "weight": 70,
-        "activity": "Moderately Active",
-        "goal": "Stay Fit",
-        "diet": "Vegetarian"
-    }
+    st.session_state.user = DEFAULT_USER.copy()
 
 user = st.session_state.user
 
 # -------------------------------------------------
-# 2️⃣ SESSION-BOUND FORM
+# FORM
 with st.form("user_form"):
 
     age = st.number_input(
@@ -84,7 +95,7 @@ with st.form("user_form"):
     submit = st.form_submit_button("Generate My Plan")
 
 # -------------------------------------------------
-# 3️⃣ UPDATE SESSION STATE ONLY ON SUBMIT
+# SAVE ON SUBMIT
 if submit:
     st.session_state.user = {
         "age": age,
@@ -96,45 +107,4 @@ if submit:
         "diet": diet
     }
 
-# ---------------- RESET BUTTON ----------------
-if st.button("🔄 Reset Details"):
-    # 1️⃣ Remove widget keys safely
-    for key in ["age", "gender", "height", "weight", "activity", "goal", "diet"]:
-        if key in st.session_state:
-            del st.session_state[key]
-
-    # 2️⃣ Reset master user dict
-    st.session_state.user = {
-        "age": 25,
-        "gender": "Male",
-        "height": 170,
-        "weight": 70,
-        "activity": "Moderately Active",
-        "goal": "Stay Fit",
-        "diet": "Vegetarian"
-    }
-
-    st.success("🔄 Details reset to default values.")
-    st.rerun()
-
-
-
-    # Optional DB save
-    today = date.today().isoformat()
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO progress (age, gender, height, weight, goal, calories, date)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, (age, gender, height, weight, goal, 0, today))
-    conn.commit()
-    conn.close()
-
-    st.success("✅ Details saved successfully! Go to Workout or Diet page.")
-
-
-
-
-
-
-
+    st.success("✅ Details saved successfully!")
