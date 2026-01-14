@@ -109,3 +109,21 @@ if submit:
 
     st.success("✅ Details saved successfully!")
 
+
+# ---------------- RESET BUTTON ----------------
+if st.button("🔄 Reset Details"):
+    st.session_state.user = {
+        "age": 25,
+        "gender": "Male",
+        "height": 170,
+        "weight": 70,
+        "activity": "Moderately Active",
+        "goal": "Stay Fit",
+        "diet": "Vegetarian"
+    }
+
+    st.success("Details reset to default values.")
+    st.rerun()
+
+
+
