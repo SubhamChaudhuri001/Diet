@@ -27,7 +27,7 @@ logo = Image.open(LOGO_PATH)
 # ✅ USE st.logo WITHOUT size PARAM
 st.logo(logo)
 
-
+st.sidebar.header("MY NAME")
 st.sidebar.title("💪 YOUTHFIT AI")
 st.sidebar.caption("AI-Based Workout & Diet Planner")
 
@@ -69,3 +69,4 @@ else:
     st.sidebar.info("Please enter your details")
 
 """
+
