@@ -98,7 +98,7 @@ if submit:
 
 # ---------------- RESET BUTTON ----------------
 if st.button("🔄 Reset Details"):
-    st.session_state.user = {
+    default_user = {
         "age": 25,
         "gender": "Male",
         "height": 170,
@@ -108,7 +108,19 @@ if st.button("🔄 Reset Details"):
         "diet": "Vegetarian"
     }
 
-    st.success("Details reset to default values.")
+    # ✅ Reset master user dict
+    st.session_state.user = default_user
+
+    # ✅ Reset individual widget keys
+    st.session_state.age = default_user["age"]
+    st.session_state.gender = default_user["gender"]
+    st.session_state.height = default_user["height"]
+    st.session_state.weight = default_user["weight"]
+    st.session_state.activity = default_user["activity"]
+    st.session_state.goal = default_user["goal"]
+    st.session_state.diet = default_user["diet"]
+
+    st.success("🔄 Details reset to default values.")
     st.rerun()
 
 
@@ -124,6 +136,7 @@ if st.button("🔄 Reset Details"):
     conn.close()
 
     st.success("✅ Details saved successfully!")
+
 
 
 
