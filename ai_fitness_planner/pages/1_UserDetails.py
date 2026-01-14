@@ -96,20 +96,6 @@ if submit:
         "diet": diet
     }
 
-    # Optional DB save
-    today = date.today().isoformat()
-    conn = connect_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-        INSERT INTO progress (age, gender, height, weight, goal, calories, date)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, (age, gender, height, weight, goal, 0, today))
-    conn.commit()
-    conn.close()
-
-    st.success("✅ Details saved successfully!")
-
-
 # ---------------- RESET BUTTON ----------------
 if st.button("🔄 Reset Details"):
     st.session_state.user = {
@@ -124,6 +110,21 @@ if st.button("🔄 Reset Details"):
 
     st.success("Details reset to default values.")
     st.rerun()
+
+
+    # Optional DB save
+    today = date.today().isoformat()
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO progress (age, gender, height, weight, goal, calories, date)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (age, gender, height, weight, goal, 0, today))
+    conn.commit()
+    conn.close()
+
+    st.success("✅ Details saved successfully!")
+
 
 
 
