@@ -8,6 +8,20 @@ from datetime import date
 
 st.title("📝 Enter Your Details")
 
+# ✅ INITIALIZE SESSION STATE (ONLY ONCE)
+if "user" not in st.session_state:
+    st.session_state.user = {
+        "age": 25,
+        "gender": "Male",
+        "height": 170,
+        "weight": 70,
+        "activity": "Moderately Active",
+        "goal": "Stay Fit",
+        "diet": "Vegetarian"
+    }
+
+user = st.session_state.user
+
 with st.form("user_form"):
     age = st.number_input("Age", min_value=15, max_value=70)
     gender = st.radio("Gender", ["Male", "Female"])
@@ -33,8 +47,8 @@ with st.form("user_form"):
 
 # -------------------------------------------------
 
+# ✅ UPDATE SESSION STATE ONLY ON SUBMIT
 if submit:
-    # ✅ Save to session state
     st.session_state.user = {
         "age": age,
         "gender": gender,
@@ -60,3 +74,4 @@ if submit:
     conn.close()
 
     st.success("✅ Details saved successfully! Go to Workout or Diet page.")
+
