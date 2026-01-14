@@ -130,7 +130,8 @@ if st.button("🔄 Reset Details"):
     conn.commit()
     conn.close()
 
-    st.success("✅ Details saved successfully!")
+    st.success("✅ Details saved successfully! Go to Workout or Diet page.")
+
 
 
 
