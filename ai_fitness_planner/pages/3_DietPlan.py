@@ -96,3 +96,49 @@ st.expander("💡 Nutrition Tips").write("""
 - Eat every 3–4 hours  
 - Maintain sufficient protein intake  
 """)
+
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+import io
+
+# ---------------- DOWNLOAD DIET PLAN AS PDF ----------------
+st.subheader("📥 Download Your Diet Plan")
+
+def generate_diet_pdf(diet, user):
+    buffer = io.BytesIO()
+    c = canvas.Canvas(buffer, pagesize=A4)
+    width, height = A4
+
+    c.setFont("Helvetica-Bold", 16)
+    c.drawString(50, height - 50, "YOUTHFIT AI – Personalized Diet Plan")
+
+    c.setFont("Helvetica", 12)
+    c.drawString(50, height - 90, f"Goal: {user['goal']}")
+    c.drawString(50, height - 110, f"Diet Preference: {user['diet']}")
+    c.drawString(50, height - 130, f"Daily Calories: {diet['Calories']} kcal")
+
+    y = height - 170
+    c.setFont("Helvetica-Bold", 13)
+    c.drawString(50, y, "Meals:")
+    y -= 20
+
+    c.setFont("Helvetica", 11)
+    for meal in diet["Meals"]:
+        c.drawString(60, y, f"- {meal}")
+        y -= 18
+
+    c.showPage()
+    c.save()
+    buffer.seek(0)
+    return buffer
+
+
+pdf_data = generate_diet_pdf(diet, user)
+
+st.download_button(
+    label="📄 Download Diet Plan (PDF)",
+    data=pdf_data,
+    file_name="YOUTHFIT_AI_Diet_Plan.pdf",
+    mime="application/pdf"
+)
+
