@@ -55,7 +55,7 @@ st.write("""
 
 st.success("🚀 Internship-Ready AI Project")
 
-'''
+
 if st.sidebar.button("🚀 Get Started"):
     st.switch_page("pages/1_User_Details.py")
 
@@ -69,7 +69,8 @@ if "user" in st.session_state:
 else:
     st.sidebar.info("Please enter your details")
 
-'''
+
+
 
 
 
