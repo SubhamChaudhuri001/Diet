@@ -96,29 +96,6 @@ if submit:
         "diet": diet
     }
 
-# ---------------- RESET BUTTON ----------------
-if st.button("🔄 Reset Details"):
-    # 1️⃣ Remove widget keys safely
-    for key in ["age", "gender", "height", "weight", "activity", "goal", "diet"]:
-        if key in st.session_state:
-            del st.session_state[key]
-
-    # 2️⃣ Reset master user dict
-    st.session_state.user = {
-        "age": 25,
-        "gender": "Male",
-        "height": 170,
-        "weight": 70,
-        "activity": "Moderately Active",
-        "goal": "Stay Fit",
-        "diet": "Vegetarian"
-    }
-
-    st.success("🔄 Details reset to default values.")
-    st.rerun()
-
-
-
     # Optional DB save
     today = date.today().isoformat()
     conn = connect_db()
